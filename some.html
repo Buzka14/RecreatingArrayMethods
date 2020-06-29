@@ -1,0 +1,119 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // true if the callback function returns a truthy value for at least one element in the array. Otherwise, false.
+
+// Function signature:
+    // some(array, callback(element[, index[, array]])[, thisArg])
+
+// Parameters:
+    // callback:
+        // element
+        // index - optional
+        // array - optional
+    //thisArg - optional
+
+function some(array, callback, optThis) {
+var someCallback = callback;
+var length = array.length;
+    if (optThis) {
+      someCallback = callback.bind(optThis);
+    }
+    for (var i = 0; i < length; i++) {
+      if (i in array && !someCallback(array[i], i, array)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+tests ({
+    'It should return true when a single element in the array pass the condition': function() {
+        var testArray = [1, 2, 3, 4];
+        var value = some(testArray, function(num){
+            if (num < 2){
+                return true;
+            }
+        });
+        eq(value, true);
+    },
+    'It should return false for any condition when calling some on an empty array': function() {
+        var testArray = [];
+        var value = some(testArray, function(num){
+            if (num === 2) {
+                return value;
+            }
+        });
+        eq(value, false);
+    },
+    'It should return false when none of the elements pass the condition': function() {
+        var testArray = [5, 6, 7, 8];
+        var firstValue = some(testArray, function(num){
+            if (num < 5){
+            return firstValue;
+        }
+        });
+        eq(firstValue, true)
+     },
+    'It should return the i as first argument to the callback': function() {
+        some([1], function(num){
+            eq(num, 1)
+        });
+    },
+    'It should return the i as second argument to the callabck': function() {
+         some([1], function(num, index){
+            eq(index, 0)
+        });
+    },
+    'It should return the i as third argument to the callabck': function() {
+        var testArray = [1, 2, 3];
+        some(testArray, function(num, index, originalArray){
+            eq(originalArray, testArray)
+        });
+    },
+    'It should accept an optional thisArgument': function() {
+        some([], function() {
+        eq(this.description, 'I should be accessible inside of the callback');
+        }, {description: 'I should be accessible inside of the callback'});
+    },
+    'It should exclude holes': function() {
+        var numberCallbackHasRun = 0;
+        var testArray = [1, 2, 3, , 4, ];
+        var hole = some(testArray, function(num) {
+           numberCallbackHasRun++;
+            return true;
+        });
+        eq(numberCallbackHasRun, 4);
+    },
+    'It should exclude deleted values': function() {
+        var testArray = [1, 2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = some(testArray, function(num, index, originalArray) {
+            delete testArray[1];
+            numberCallbackHasRun++;
+            return true;
+        });
+        eq(numberCallbackHasRun, 3);
+    },
+    'It should run the callback on changed values': function() {
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = some(testArray, function(num){
+            numberCallbackHasRun++;
+            testArray[2] = 1;
+        });
+        eq(testArray[2], 1);
+    },
+    'It should not mutate the original array': function() {  
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = some(testArray, function(element){
+            numberCallbackHasRun++;
+            testArray.push(5);
+            return element < 5;
+        });
+        eq(numberCallbackHasRun, 3);
+    }
+});
+</script>
