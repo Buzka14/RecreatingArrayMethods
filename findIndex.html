@@ -1,0 +1,130 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // The index of the first element in the array that passes the test. Otherwise, -1.
+
+// Function signature:
+    // findIndex(array, callback( element[, index[, array]] )[, thisArg])
+
+// Parameters:
+    // callback:
+        // element
+        // index - optional
+        // array - optional
+    //thisArg - optional
+    // TEST
+
+
+function findIndex(array, callback, optThis){
+    var originalArray = array;
+    var length = originalArray.length;
+    var findCallback = callback;
+    if(optThis) {
+        findCallaback = callback.bind(optThis);
+    }
+    for (var i = 0; i < length; i++){
+        var resultSoFar = findCallback(originalArray[i],i,array);
+        if (resultSoFar){
+            return i;
+        }
+    }
+    return -1;
+};
+tests ({
+    'It should return the index of the first element that passes the condition': function() {
+        var testArray = [6, 7, 8, 9];
+        var firstIndex = findIndex(testArray, function(num){
+            if (num > 5){
+                return num;
+            }
+        });
+        eq(firstIndex, 0);
+    },
+    'It should stop executes the callback once the returned value is true': function() {
+        var testArray = [4, 5, 14, 15];
+        var numberCallbackHasRun = 0;
+        findIndex(testArray, function(num){
+            numberCallbackHasRun++;
+            if (num > 6){
+                return num;
+            }
+        });
+        eq(numberCallbackHasRun, 3);
+    },
+    'It should return -1 when none of the elements passes the condition': function() {
+        var firstValue = findIndex([6, 7, 16, 17], function(num){
+            if (num > 18){
+                return num;
+            }
+        });
+        eq(firstValue, -1)
+    },
+    'It should return the i as first argument to the callback': function() {
+        findIndex([1], function(num){
+            eq(num, 1)
+        });
+    },
+    'It should return the i as second argument to the callabck': function() {
+        findIndex([1], function(num, index){
+            eq(index, 0)
+        });
+    },
+    'It should return the i as third argument to the callabck': function() {
+        var testArray = [1, 2, 3];
+        findIndex(testArray, function(num, index, originalArray){
+            eq(originalArray, testArray)
+        });
+    },
+    'It should accept an optional thisArgument': function() {
+        findIndex([], function() {
+        eq(this.description, 'I should be accessible inside of the callback');
+        }, {description: 'I should be accessible inside of the callback'});
+    },
+    'It should run the callback through holes too': function() {
+        var testArray = [1, ,2, 3, , 4];
+        var numberCallbackHasRun = 0;
+        var hole = findIndex(testArray, function(num){
+            numberCallbackHasRun++;
+        });
+        eq(numberCallbackHasRun, testArray.length);
+    },
+    'It should visit deleted values': function() {
+        var testArray = [5, 6, 7, 8, 9];
+        var numberCallbackHasRun = 0;
+        var newArray = findIndex(testArray, function(){
+            numberCallbackHasRun++;
+            delete testArray[2];
+        });
+        eq(numberCallbackHasRun, 5);
+    },
+    'It should run the callback on changed values': function() {
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = findIndex(testArray, function(){
+            numberCallbackHasRun++;
+            testArray[0] =  1;
+        });
+        eq(numberCallbackHasRun, 3);
+    },
+    'It should not run the callback if elements are appended after findIndex begins': function() {
+        var testArray = [1, 2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = findIndex(testArray, function(){
+            numberCallbackHasRun++;
+            testArray[testArray.length] =  5;
+        });
+        eq(numberCallbackHasRun, 4);
+    },
+    'It should not mutate the original array': function() {
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = findIndex(testArray, function(){
+            numberCallbackHasRun++;
+            testArray.push(5);
+        });
+        eq(numberCallbackHasRun, 3);
+    }
+});
+
+</script>

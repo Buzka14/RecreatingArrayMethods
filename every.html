@@ -1,0 +1,129 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // true if the callback function returns a truthy value for every array element. Otherwise, false.
+
+// Function signature:
+    // every(array, callback(element[, index[, array]])[, thisArg])
+
+// Parameters:
+    // callback:
+        // element
+        // index - optional
+        // array - optional
+    //thisArg - optional
+
+    function every(array, callback, optionalThis) {
+    var everyCallback = callback;
+    var length = array.length;
+    if (optionalThis) {
+      everyCallback = callback.bind(optionalThis);
+    }
+    for (var i = 0; i < length; i++) {
+      if (i in array && !everyCallback(array[i], i, array)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+tests ({
+    'It should return true when all elements in the array pass the condition': function() {
+        var testArray = [1, 2, 3, 4];
+        var value = every(testArray, function(num){
+            if (num < 5){
+                return true;
+            }
+        });
+        eq(value, true);
+    },
+    'It should return true for any condition when calling every on an empty array': function() {
+        var testArray = [];
+        var value = every(testArray, function(num){
+            if (num === 2) {
+                return value;
+            }
+        });
+        eq(value, true);
+    },
+    'It should return false when a single element does not pass the condition': function() {
+        var testArray = [5, 6, 7, 8];
+        var firstValue = every(testArray, function(num){
+            if (num > 7){
+            return firstValue;
+        }
+        });
+        eq(firstValue, false)
+     },
+    'It should stop executes the callback once the returned value is false': function() {
+        var testArray = [9, 10, 11, 12];
+        var numberCallbackHasRun = 0;
+        every(testArray, function(num){
+            numberCallbackHasRun++;
+            return num < 10;
+        });
+        eq(numberCallbackHasRun, 2);
+    },
+    'It should return the i as first argument to the callback': function() {
+        every([1], function(num){
+            eq(num, 1)
+        });
+    },
+    'It should return the i as second argument to the callabck': function() {
+        every([1], function(num, index){
+            eq(index, 0)
+        });
+    },
+    'It should return the i as third argument to the callabck': function() {
+        var testArray = [1, 2, 3];
+        every(testArray, function(num, index, originalArray){
+            eq(originalArray, testArray)
+        });
+    },
+    'It should accept an optional thisArgument': function() {
+        every([], function() {
+        eq(this.description, 'I should be accessible inside of the callback');
+        }, {description: 'I should be accessible inside of the callback'});
+    },
+    'It should exclude holes': function() {
+        var testArray = [1, 2, 3, , 4, ];
+        var numberCallbackHasRun = 0;
+        var hole = every(testArray, function(num) {
+           numberCallbackHasRun++;
+            return true;
+        });
+        eq(numberCallbackHasRun, 4);
+    },
+    'It should exclude deleted values': function() {
+        var testArray = [1, 2, 3, 4];
+        var numberCallbackHasRun = 0;
+        every(testArray, function(num, index, originalArray) {
+            delete testArray[1];
+            delete testArray[2];
+            numberCallbackHasRun++;
+            return true;
+        });
+        eq(numberCallbackHasRun, 2);
+    },
+    'It should run the callback on changed values': function() {
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = every(testArray, function(num){
+            numberCallbackHasRun++;
+            testArray[0] = 1;
+        });
+        eq(testArray[0], 1);
+    },
+    'It should not mutate the original array': function() {
+        var testArray = [2, 3, 4];
+        var numberCallbackHasRun = 0;
+        var newArray = every(testArray, function(element){
+            numberCallbackHasRun++;
+            testArray.push(5);
+            return element < 5;
+        });
+        eq(numberCallbackHasRun, 3);
+    }
+});
+</script>
