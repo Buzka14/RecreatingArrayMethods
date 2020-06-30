@@ -1,0 +1,88 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function indexOf(array, searchElement) {
+    // for (var i = 0; i < array.length; i++) {
+        // if (array[i] === searchElement) {
+            // return i;
+        // }
+    // }
+    // return -1;
+// };
+
+// Returns:
+    // The first index of the element in the array; -1 if not found.
+
+// Function signature:
+    // indexOf(arr, searchElement[, fromIndex])
+
+// Parameters:
+    // searchElement
+    // fromIndex - optional
+
+'use strict'
+function indexOf(array, searchElement, optFromIndex) {
+    var startingIndex = 0;
+    var originalArray = array;
+    var length = originalArray.length;
+
+    if (optFromIndex) {
+        if (optFromIndex >= originalArray.length) {
+        return -1;
+        }
+        if (optFromIndex < 0) {
+        startingIndex = originalArray.length + optFromIndex;
+        } else {
+        startingIndex = optFromIndex;
+        }
+    }
+    for (var i = startingIndex; i < originalArray.length; i++) {
+        if (array[i] === searchElement) {
+        return i;
+        }
+    }
+    return -1;
+};
+tests ({
+    'It should returns the first index at which a given element can be found in the array': function() {
+        var testArray = ['bla', 'bleh', 'bloo', 'bla', 'bleh'];
+        var searchElement = 'bleh';
+        var result = indexOf(testArray, searchElement);
+        eq(result, 1);
+    },
+    'It should return -1 when a negative index is provided': function() {
+        var testArray = [6, 7, 16, 17];
+        var searchElement = 4;
+        var result = indexOf(testArray, searchElement);
+        eq(result, -1);
+    },
+    'It should return the index to start the search at with fromIndex': function() {
+        var testArray = ['one', 'two', 'three', 'four', 'five', 'two'];
+        var searchElement = 'two';
+        var fromIndex = 1;
+        var result = indexOf(testArray, searchElement, fromIndex);
+        eq(result, 1);  
+    },
+    'It should return -1 if the index is greater than or equal to the length of the array': function() {
+        var testArray = ['one', 'two', 'three', 'four', 'five', 'two', 'five'];
+        var searchElement = 'two';
+        var fromIndex = 6;
+        var result = indexOf(testArray, searchElement, fromIndex)
+        eq(result, -1);  
+    },
+    'It should search the array if negative index is provided': function() {
+        var testArray = [1, 2, 3, 4, 5];
+        var searchElement = 5;
+        var fromIndex = -1;
+        var result = indexOf(testArray, searchElement, fromIndex);
+        eq(result, 4);
+    },
+    'It should search the array if 0 index is provided': function() {
+        var testArray = [1, 2, 3, 4, 5];
+        var searchElement = 5;
+        var fromIndex = 0;
+        var result = indexOf(testArray, searchElement, fromIndex);
+        eq(result, 4);
+    }
+});
+</script>
