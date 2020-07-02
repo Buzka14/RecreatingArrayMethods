@@ -1,0 +1,97 @@
+<script src="simpleTest.js"></script>
+<script>
+
+/// function includes(array, valueToFind) {
+    // for (var i = 0; i < array.length; i++) {
+        // if (array[i] === valueToFind) {
+            // return true;
+        // }
+    // }
+    // return false;
+// };
+
+// Returns:
+    // returning true or false if the method determines whether an array includes a certain value among its entries.
+
+// Function signature:
+    // arr.includes(valueToFind[, fromIndex])
+
+// Parameters:
+    // valueToFind
+    // fromIndex - optional
+
+'use strict'
+
+function includes(array, valueToFind, optFromIndex){
+    var originalArray = array;
+    var length = originalArray.length;
+    var startingIndex = 0;
+    if (optFromIndex) {
+        startingIndex = optFromIndex;
+        } else {
+            startingIndex != optFromIndex;
+        }
+    for (var i = startingIndex; i < length; i++){
+        if (array[i] === valueToFind) {
+            return true;
+        }
+    }
+    return false;
+};
+tests ({
+    'It should return true': function() {
+        var testArray = ['bla', 'bleh', 'bloo', 'bla', 'bleh'];
+        var valueToFind = 'bloo';
+        var result = includes(testArray, valueToFind);
+        eq(result, true);
+    },
+    'It should return false': function() {
+        var testArray = ['coffee', 'tea', 'milk'];
+        var valueToFind = 'beer';
+        var result = includes(testArray, valueToFind);
+        eq(result, false);
+    },
+    'It should be case-sensitive ': function() {
+        var testArray = ['coffee', 'tea', 'milk', 'chocolate'];
+        var valueToFind = 'Tea';
+        var result = includes(testArray, valueToFind);
+        eq(result, false);
+    },
+    'It should start the search from 0 if no fromIndex provided': function() {
+        var testArray = ['one', 'two', 'three', 'four', 'five', 'four'];
+        var valueToFind = 'four';
+        var result = includes(testArray, valueToFind);
+        var resultIndex = testArray.indexOf(valueToFind);
+        eq(result, true);
+        eq(resultIndex, 3);  
+    },
+    'It should search and find NaN': function() {
+        var testArray = [1, 2, 3, 4, NaN];
+        var result = testArray.includes(NaN);
+        eq(result, true); 
+    },
+    'It should return the position at which to start the search with fromIndex': function() {
+        var testArray = ['one', 'two', 'three', 'four', 'five', 'three'];
+        var valueToFind = 'three';
+        var optFromIndex = 3;
+        var value = includes(testArray, valueToFind)
+        var result = testArray.indexOf(valueToFind, optFromIndex);
+        eq(value, true);
+        eq(result, 5);  
+    },
+    'It should return true with fromIndex': function() {
+        var testArray = [1, 2, 3, 4, 5, 3];
+        var valueToFind = 3;
+        var optFromIndex = 4;
+        var result = includes(testArray, valueToFind, optFromIndex);
+        eq(result, true);
+    },
+    'It should returm false with fromIndex': function() {
+        var testArray = [1, 2, 3, 4, 2];
+        var valueToFind = 2;
+        var optFromIndex = 5;
+        var result = includes(testArray, valueToFind, optFromIndex);
+        eq(result, false);  
+    }
+});
+</script>
