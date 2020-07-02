@@ -1,0 +1,106 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // returning new array containing the extracted elements.
+
+// Function signature:
+    // slice(array[, start[, end]]);
+
+// Parameters:
+    // Start - optional
+    // End - optional
+
+function slice(array, optStartIndex, optEndIndex){
+    var originalArray = array;
+    var length = originalArray.length;
+    var startingIndex = 0;
+  
+    for(var i = startingIndex; i < length; i++){
+        if (array[i] === i in array){
+            return startingIndex;
+        }
+    }
+};
+
+tests ({
+    'It should return a shallow copy of elements from the original array': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = ['guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(1);
+        return true;
+        eq(newArray, true);
+    },
+    'It should start extraxtion from index 0': function() {
+        var testArray = ['pizza', 'ice cream', 'burger', 'steak']
+        var newArray = slice(testArray);
+        eq(newArray, undefined)
+    },
+    'It should indicate an offset from the end of the sequence if nefative optStartIndex is provided': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = 'sax';
+        var newArray = testArray.slice(-1);
+        eq(result, newArray);
+    },
+    'It should return an empty array if the optStartIndex provided is greater than the array.length': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(5);
+        eq(newArray, false);
+    },
+    'It should use optEndIndex to indicate up to which index to extract elements': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(0, 3);
+        eq(newArray.length, 3);
+    },
+    'It should indicate an offset from the end of the sequence if negative optEndIndex is provided': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = 'bass';
+        var newArray = testArray.slice(3, -1);
+        eq(result, newArray);
+    },
+    'It should extract through to the array.length if optEndIndex is greater that array.length': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = ['guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(1, 6);
+        eq(newArray.length, result.length);
+    },
+    'It should copy object references into the new array': function() {
+        var testObj = { arr: ['piano', 'guitar', 'drums', 'bass', 'sax'] };
+        var result = ['guitar', 'drums', 'bass', 'sax'];
+        var newArray = testObj.arr.slice(1);
+        eq(testObj.arr.length, 5);
+        eq(newArray.length, result.length);
+    },
+    'It should extract different data types': function() {
+        var testArray = [true, 'guitar', 'drums', 4, 'sax'];
+        var newArray = testArray.slice(0,4);
+        var value1 = newArray.includes(true);
+        var value2 = newArray.includes('guitar');
+        var value3 = newArray.includes(4);
+        eq(value1, true);
+        eq(value2, true);
+        eq(value3, true);
+    },
+    'It should not affect the other array if changes to elements from either array are made': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(1,4);
+        var result1 = testArray.splice(3, 1, 'violin');
+        eq(testArray.length, 5);
+        eq(newArray.length, 3);
+    },
+    'It should not affect the other array if a new element is added to either array': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(1,4);
+        var result1 = testArray.push('violin');
+        eq(testArray.length, 6);
+        eq(newArray.length, 3);
+    },
+    'It should not mutate the original array': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var newArray = testArray.slice(1,4);
+        var result1 = newArray.push('violin');
+        eq(testArray.length, 5);
+        eq(newArray.length, 4);
+    }
+});
+</script>
