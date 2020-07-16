@@ -1,0 +1,92 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function join(separator){
+// var joinedArray = join(['rock', '&', 'roll'])
+    // if (array.length === 0){
+        // return '';
+    //}
+//};
+
+// Returns:
+    // A string with all array elements joined. If arr.length is 0, the empty string is returned.
+
+// Function signature:
+    // arr.join(separator);
+
+// Parameters:
+    // Separator - optional
+
+function join(array, optSeparator){
+    var joinedArray = array;
+    var length = joinedArray.length;
+  
+    if (argument.length > 1 && optSeparator){
+        return array.join(optSeparator);
+    }
+    for(var i = 0; i < length; i++){
+        if (length === 0 && i in array === undefined && i in array === null){
+            return '';
+        } else {
+            return;
+        }
+    }
+};
+
+tests ({
+    'It should return string of joined elements of an array': function() {
+        var testArray = ['rock', '&', 'roll'];
+        var result = testArray.join();
+        var joinedElements = 'rock,&,roll';
+        eq(joinedElements, result);
+    },
+    'It should return string of joined elements of an array-like object': function() {
+        var objArray = {
+            testArray: ['rock', '&', 'roll']
+        };
+        var result = 'rock,&,roll';
+        eq(result, objArray.testArray);
+    },
+    'It should return a single item without separator if the array has only one element': function() {
+        var testArray = ['rock'];
+        var result = testArray.join();
+        var joinedElements = 'rock'
+        eq(joinedElements, result);
+    },
+    'It should return an empty string if array.length is 0, item is undefined or null': function() {
+        var testArray = [];
+        var undArray = [undefined];
+        var nullArray = [null];
+        var result = testArray.join();
+        var result1 = undArray.join();
+        var result2 = nullArray.join();
+        var joinedElements = '';
+        eq(joinedElements, result);
+        eq(joinedElements, result1);
+        eq(joinedElements, result2);
+    },
+    'It should use separator sign to separate each element': function() {
+        var testArray = ['rock', '&', 'roll'];
+        var result = testArray.join('-');
+        var joinedElements = 'rock-&-roll'
+        eq(joinedElements, result);
+    },
+    'It should separate elements with coma if no separator is provided': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.join();
+        var joinedElements = 'piano,guitar,drums,bass,sax'
+        eq(result, joinedElements);
+    },
+    'It should return all elements joined without any characters in between them if separator is an empty string': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.join('');
+        var joinedElements = 'pianoguitardrumsbasssax'
+        eq(result, joinedElements);
+    },
+    'It should not mutate the original array': function() {
+        var testArray = ['rock', '&', 'roll'];
+        var newArray = testArray.join();
+        eq(testArray.length, 3);
+    }
+});
+</script>

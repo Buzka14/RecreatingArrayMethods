@@ -1,0 +1,76 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function push(elementN){
+// var pushedArray = array.push('element')
+    // if (array.length === 0){
+        // return '';
+    //}
+//};
+
+// Returns:
+    // The new length property of the object upon which the method was called.
+
+// Function signature:
+    // arr.push(elementN);
+
+// Parameters:
+    // elementN
+
+function push(array, elementN){
+    var pushedArray = array;
+    var length = pushedArray.length;
+    for (var i = 0; i < length; i++){
+        if (!parseInt(length)){
+           length = 0;
+        }
+    }
+    return pushedArray;
+};
+
+tests ({
+    'It should return new array.length after add zero or more elements to the end of the array': function() {
+        var testArray = ['blues', 'jazz', 'rock '];
+        var result = testArray.push('pop', 'classic');
+        eq(testArray.length, 5);
+    },
+    'It should be used with apply() on object resembling arrays': function() {
+        var objArray = {
+            testArray: ['blues', 'jazz', 'rock '],
+            newArray: ['pop', 'classic']
+        };
+        var result = objArray.testArray.push.apply(objArray.testArray, objArray.newArray);
+        eq(objArray.testArray.length, 5);
+    },
+    'It should be used with call() on object resembling arrays': function() {
+        var objArray = {
+            testArray: [],
+            length: 0,
+            addElement: function(music){
+            }
+        };
+        var result = objArray.testArray.push.call(objArray.testArray, 'music');
+        eq(objArray.testArray.length, 1);
+    },
+    'It should push from index zero if the length can not be converted to number': function() {
+        var objArray = {
+            testArray: [],
+            length: 'lol',
+        };
+        var result = objArray.testArray.push('music');
+        eq(objArray.testArray.length, 1);
+    },
+    'It should push from index zero if the length is nonexistent': function() {
+        var objArray = {
+            testArray: [],
+        };
+        var result = objArray.testArray.push('music');
+        eq(objArray.testArray.length, 1);
+    },
+    'It should mutate the original array': function() {
+        var testArray = ['blues', 'jazz', 'rock '];
+        var newArray = testArray.push('pop', 'classic');
+        eq(testArray.length, 5);
+    }
+});
+</script>
