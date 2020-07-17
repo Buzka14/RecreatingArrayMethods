@@ -1,0 +1,64 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function unshift(elementN){
+// var unshiftedArray = array.shift('element')
+    // if (array.length === 0){
+        // return '';
+    //}
+//};
+// Returns:
+    // The new length property of the object upon which the method was called.
+
+// Function signature:
+    // arr.unshift(elementN);
+
+// Parameters:
+    // elementN
+
+function unshift(array, elementN){
+    var unshiftedArray = array;
+    var length = unshiftedArray.length;
+    for (var i = 0; i < length; i++){
+    }
+    return unshiftedArray.length;
+};
+
+tests ({
+    'It should return new array.length after add zero or more elements to the beginning of the array': function() {
+        var unshiftedArray = ['blues', 'jazz', 'rock '];
+        var result = unshiftedArray.unshift('pop', 'classic');
+        eq(unshiftedArray.length, 5);
+    },
+    'It should insert the new value in an array-like object': function() {
+        var objArray = {
+            unshiftedArray: ['blues', 'jazz', 'rock '],
+            unshiftedElement: ['pop', 'classic']
+        };
+        var result = objArray.unshiftedArray.unshift(objArray.unshiftedArray, objArray.unshiftedElement);
+        eq(objArray.unshiftedArray.length, 5);
+    },
+    'It should be used with apply() on object resembling arrays': function() {
+        var objArray = {
+            unshiftedArray: ['blues', 'jazz', 'rock '],
+            unshiftedElement: ['pop', 'classic']
+        };
+        var result = objArray.unshiftedArray.unshift.apply(objArray.unshiftedArray, objArray.unshiftedElement);
+        eq(objArray.unshiftedArray.length, 5);
+    },
+    'It should be used with call() on object resembling arrays': function() {
+        var objArray = {
+            unshiftedArray: ['blues', 'jazz', 'rock'],
+            unshiftedElement: ['pop']
+
+        };
+        var result = objArray.unshiftedArray.unshift.call(objArray.unshiftedArray, objArray.unshiftedElement);
+        eq(objArray.unshiftedArray.length, 4);
+    },
+    'It should mutate the original array': function() {
+        var unshiftedArray = ['blues', 'jazz', 'rock '];
+        var unshiftedElement = unshiftedArray.unshift('pop', 'classic');
+        eq(unshiftedArray.length, 5);
+    }
+});
+</script>

@@ -1,0 +1,64 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function pop(){
+// var poppedElement = array.pop()
+    // if (array.length <=0){
+        // return undefined;
+    //}
+//};
+
+// Returns:
+    // The last element in the array, or undefined if the array is empty.
+
+// Function signature:
+    // arr.pop();
+
+function pop(array){
+    var poppedArray = array;
+    var poppedElement = poppedArray.length - 1;
+    for (var i = poppedElement; i >=0; i--){
+        if (array[i] === poppedElement){
+           return i;
+        }
+    }
+    return undefined;
+};
+
+tests ({
+    'It should return the removed element from the end of the array': function() {
+        var poppedArray = ['blues', 'jazz', 'rock ', 'pop', 'classic'];
+        var poppedElement = poppedArray.pop();
+        eq(poppedElement, 'classic');
+    },
+    'It should change the array length': function() {
+        var poppedArray = ['blues', 'jazz', 'rock '];
+        var result = poppedArray.pop();
+        eq(poppedArray.length, 2);
+    },
+    'It should return undefined if the array is empty': function() {
+        var poppedArray = [];
+        var result = poppedArray.pop();
+        eq(result, undefined);
+    },
+    'It should be used with apply() on object resembling arrays': function() {
+        var objArray = {
+            poppedArray: ['blues', 'jazz', 'rock '],
+        };
+        var result = objArray.poppedArray.pop.apply(objArray.poppedArray);
+        eq(objArray.poppedArray.length, 2);
+    },
+    'It should be used with call() on object resembling arrays': function() {
+        var objArray = {
+            poppedArray: ['blues', 'jazz', 'rock '],
+        };
+        var result = objArray.poppedArray.pop.call(objArray.poppedArray);
+        eq(objArray.poppedArray.length, 2);
+    },
+    'It should mutate the original array': function() {
+        var poppedArray = ['blues', 'jazz', 'rock ', 'pop', 'classic'];
+        var poppedElement = poppedArray.pop();
+        eq(poppedArray.length, 4);
+    }
+});
+</script>

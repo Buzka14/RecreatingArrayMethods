@@ -1,0 +1,79 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// function shift(){
+// var shiftedElement = array.shift()
+    // if (array.length = 0){
+        // return undefined;
+    //}
+//};
+
+// Returns:
+    // The first element in the array, or undefined if the array is empty.
+
+// Function signature:
+    // arr.shift();
+
+function shift(array){
+    var shiftedArray = array;
+    var shiftedElement = array[0];
+    for (var i = shiftedElement; i < shiftedArray.length - 1; i++){
+        if (array[i] === shiftedElement){
+           return i;
+        }
+    }
+    return undefined;
+};
+
+tests ({
+    'It should return the removed element from the beginning of the array': function() {
+        var shiftedArray = ['blues', 'jazz', 'rock', 'pop', 'classic'];
+        var shiftedElement = shiftedArray.shift();
+        eq(shiftedElement, 'blues');
+    },
+    'It should change the array length': function() {
+        var shiftedArray = ['blues', 'jazz', 'rock'];
+        var result = shiftedArray.shift();
+        eq(shiftedArray.length, 2);
+        eq(result, 'blues');
+    },
+    'It should return undefined if the array is empty': function() {
+        var shiftedArray = [];
+        var result = shiftedArray.shift();
+        eq(result, undefined);
+    },
+    'It should be used with apply() on object resembling arrays': function() {
+        var objArray = {
+            shiftedArray: ['blues', 'jazz', 'rock'],
+        };
+        var result = objArray.shiftedArray.shift.apply(objArray.shiftedArray);
+        eq(objArray.shiftedArray.length, 2);
+    },
+    'It should be used with call() on object resembling arrays': function() {
+        var objArray = {
+            shiftedArray: ['blues', 'jazz', 'rock'],
+        };
+        var result = objArray.shiftedArray.shift.call(objArray.shiftedArray);
+        eq(objArray.shiftedArray.length, 2);
+    },
+    'It should shift the values at the consecutive indexes down': function() {
+        var shiftedArray = ['blues', 'jazz', 'rock', 'pop', 'classic'];
+        var shiftedElement = shiftedArray.shift();
+        eq(shiftedElement, 'blues');
+        eq(shiftedArray.length, 4);
+        var indx1 = shiftedArray.indexOf('jazz');
+        var indx2 = shiftedArray.indexOf('rock');
+        var indx3 = shiftedArray.indexOf('pop');
+        var indx4 = shiftedArray.indexOf('classic');
+        eq(indx1, 0);
+        eq(indx2, 1);
+        eq(indx3, 2);
+        eq(indx4, 3);
+    },
+    'It should mutate the original array': function() {
+        var shiftedArray = ['blues', 'jazz', 'rock ', 'pop', 'classic'];
+        var shiftedElement = shiftedArray.shift();
+        eq(shiftedArray.length, 4);
+    }
+});
+</script>
