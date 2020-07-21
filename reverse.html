@@ -1,0 +1,51 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // The reversed array.
+
+// Function signature:
+    // arr.reverse();
+
+function reverse(array){
+    for(var i = 0; i < array.length; i++){
+    }
+    return array;
+};
+
+tests ({
+    'It should return reversed array with a reference to it': function() {
+        var reversedArray = ['blues', 'jazz', 'rock'];
+        var result = reversedArray.reverse();
+        eq(result.length, 3);
+        eq(result[0], 'rock');
+        eq(result[1], 'jazz');
+        eq(result[2], 'blues');
+    },
+    'It should be used with apply() on object resembling arrays': function() {
+        var reversedObj = {
+            0: 1, 
+            1: 2, 
+            2: 3, 
+            length: 3};
+        var result = Array.prototype.reverse.apply(reversedObj)
+        eq(result[0], 3);
+    },
+    'It should be used with call() on object resembling arrays': function() {
+        var reversedObj = {
+            0: 1, 
+            1: 2, 
+            2: 3, 
+            length: 3};
+        var result = Array.prototype.reverse.call(reversedObj)
+        eq(result[0], 3);
+    },
+    'It should mutate the original array': function() {
+        var reversedArray = ['blues', 'jazz', 'rock ', 'pop', 'classic'];
+        var result = reversedArray.reverse();
+        eq(reversedArray.length, 5);
+        eq(result[0], 'classic');
+        eq(result[4], 'blues');
+    }
+});
+</script>

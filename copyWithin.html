@@ -1,0 +1,93 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // The modified array after a part of it is copied and relocated within the array, without changing the length.
+
+// Function signature:
+    // arr.copyWithin(target [, start[, end]]);
+
+// Parameters:
+    // Target
+    // Start - optional
+    // End - optional
+
+function copyWithin(array, target, optStartIndex, optEndIndex){
+    var originalArray = array;
+    var length = originalArray.length;
+    if(arguments.length < 3){
+        optStartIndex = 0;
+    }
+    if(arguments.length < 4){
+        optEndIndex = length - 1;
+    }
+    if(optStartIndex < 0){
+        optStartIndex = length - 1;
+    }
+    if(optEndIndex < 0){
+        optEndIndex = length - 1;
+    }
+    for(var i = optStartIndex; i < optEndIndex; i++){
+       array[i] = value;
+    }
+    return originalArray;
+};
+
+tests ({
+    'It should return modified array by providing a target, without altering the length': function() {
+        var testArray = [1, 2, 3, 4];
+        var result = testArray.copyWithin(1);
+        eq(testArray.length, 4);
+        eq(result[2], 2);
+    },
+    'It should start targeting from index 0': function() {
+        var testArray = [5, 6, 7, 8];
+        var result = testArray.copyWithin(0, 3);
+        eq(result[0], 8);
+    },
+    'It should start targeting from the end of the array, if negative target is provided': function() {
+        var testArray = [5, 6, 7, 8];
+        var result = testArray.copyWithin(-1);
+        eq(result[3], 5);
+    },
+    'It should not copy anything if the target is at or greater than the array.length': function() {
+        var testArray = [2, 2, 3, 4, 5];
+        var result = testArray.copyWithin(5);
+        eq(result[0], 2);
+    },
+    'It should return the copied part trimmed to fit the array.length, if the target is positioned after the optStartIndex': function() {
+        var testArray = [1, 2, 3, 4, 5];
+        var result = testArray.copyWithin(4, 3);
+        eq(result[4], 4);
+        eq(result.length, 5);
+    },
+    'It should start targeting from the end, if the optStartIndex provided is negative': function() {
+        var testArray = [5, 6, 7, 8];
+        var result = testArray.copyWithin(0, -2);
+        eq(result[0], 7);
+    },
+    'It should copy up to the optEndIndex, not including': function() {
+        var testArray = [5, 6, 7, 8, 9];
+        var result = testArray.copyWithin(0, 3, 4);
+        eq(result[0], 8);
+    },
+    'It should end targeting from the end, if the optEndIndex provided is negative': function() {
+        var testArray = [5, 6, 7, 8, 9];
+        var result = testArray.copyWithin(1, 2, -2);
+        eq(result[0], 5)
+        eq(result[1], 7);
+        eq(result[2], 7);
+        eq(result[3], 8);
+        eq(result[4], 9);
+    },
+    'It should copy until the last index in the array if no optEndIndex is provided': function() {
+        var testArray = [5, 6, 7, 8, 9];
+        var result = testArray.copyWithin(1, 2);
+        eq(result[0], 5)
+        eq(result[1], 7);
+        eq(result[2], 8);
+        eq(result[3], 9);
+        eq(result[4], 9);
+    },
+});
+</script>

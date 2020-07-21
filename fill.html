@@ -1,0 +1,74 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // the modified array, filled with value.
+
+// Function signature:
+    // arr.fill(value[, start[, end]]);
+
+// Parameters:
+    // Value
+    // Start - optional
+    // End - optional
+
+function fill(array, value, optStartIndex, optEndIndex){
+    var originalArray = array;
+    var length = originalArray.length;
+    if(arguments.length < 3){
+        optStartIndex = 0;
+    }
+    if(arguments.length < 4){
+        optEndIndex = length
+    }
+    if(optStartIndex < 0){
+        optStartIndex = length + optStartIndex;
+    }
+    if(optEndIndex < 0){
+        optEndIndex = length + optEndIndex;
+    }
+    for(var i = optStartIndex; i < optEndIndex; i++){
+       array[i] = value;
+    }
+    return originalArray;
+};
+
+tests ({
+    'It should return a new modified array by providing a value': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.fill('music instruments');
+        eq(testArray[1], 'music instruments');
+    },
+    'It should start modification from index 0 by default': function() {
+        var testArray = ['pizza', 'ice cream', 'burger', 'steak'];
+        var result = testArray.fill('goodies');
+        eq(result[0], 'goodies');
+    },
+    'It should end with array.length by default': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.fill('instruments')
+        eq(result[4], 'instruments');
+    },
+    'It should start with array.length + optStartIndex, if the optStartIndex provided is negative': function() {
+        var testArray = ['pizza', 'ice cream', 'burger', 'steak'];
+        var result = testArray.fill('food', - 1);
+        eq(result[3], 'food');
+    },
+    'It should end with array.length + optEndIndex, if the optEndIndex provided is negative': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.fill('instruments', 1, -2);
+        eq(result[1], 'instruments');
+    },
+    'It should use an object as a value and each slot must refernce to it': function() {
+        var testArray = ['Fifa', 'Witcher', 'Crash'];
+        var game = {name: 'Rocket League'};
+        var filledArray = testArray.fill(game);
+        eq(filledArray[1], game);
+    },
+    'It should mutate the original array': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var result = testArray.fill('pizza', 2, 3);
+        eq(testArray, result);
+    }
+});
+</script>
