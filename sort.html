@@ -1,0 +1,52 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // The sorted array. Note that the array is sorted in place, and no copy is made.
+
+// Function signature:
+    // arr.sort([compareFunction]);
+
+// Parameters:
+    // compareFunction - optional
+        // firstEl
+        // secondEl
+
+function sort(array, compareFunction){
+    var originalArray = array;
+    var length = originalArray.length;
+    for(var i = 0; i < length; i++){
+        for(var j = i + 1; j < lenght; j++){
+            if (compareFunction(originalArray[i], originalArray[j] > 0)){
+                originalArray[i], originalArray[j] = originalArray[i], originalArray[j];
+            }
+        }
+    }
+    return originalArray;
+};
+tests ({
+    'It should return modified array, and all non-undefined elements are sorted in acsending order, if compareFunction is omitted': function() {
+        var testArray = [1, 21, 3, 14];
+        var result = testArray.sort();
+        eq(testArray.length, 4);
+        eq(result[0], 1);
+        eq(result[1], 14);
+        eq(result[2], 21);
+        eq(result[3], 3)
+    },
+    'It should sort in ascending order, if compareFunction returns a - b': function() {
+        var testArray = [2, 5, 4, 7];
+        var result = testArray.sort(function(a, b){
+            return a - b;
+        });
+        eq(result[1], 4);
+    },
+    'It should sort in descending order, if compareFunction returns b - a': function(a, b) {
+        var testArray = [2, 5, 4, 7];
+        var result = testArray.sort(function(a, b){
+            return b - a;
+        });
+        eq(result[1], 5);
+    }
+});
+</script>

@@ -1,0 +1,86 @@
+<script src="simpleTest.js"></script>
+<script>
+
+// Returns:
+    // An array containing the deleted elements.
+    // If only one element is removed, an array of one element is returned.
+    // If no elements are removed, an empty array is returned.
+
+// Function signature:
+    // let arrDeletedItems = array.splice(start[, deleteCount[, item1[, item2[, ...]]]]);
+
+// Parameters:
+    // Start
+    // deleteCount - optional
+    // item1, item 2.. - optional
+
+function splice(array, startIndex, optDeleteCount, optItem){
+    var originalArray = array;
+    var length = originalArray.length;
+    if(optDeleteCount <= 0 || arguments >= 3){
+        originalArray;
+    }
+    if(startIndex < 0){
+        startIndex = originalArray.length - optItem;
+    }
+    if(optDeleteCount >= originalArray.length - startIndex || !optDeleteCount && !startIndex){
+        originalArray = [];
+    }
+    for(var i = startIndex; i < length; i++){
+        var splicedArray = originalArray - startIndex;
+    }
+    return splicedArray;
+};
+
+tests ({
+    'It should only remove elements, if no elements are specified': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        var resultArray = testArray.splice(3);
+        eq(resultArray.length, 2);
+    },
+    'It should change the array content by adding items': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        testArray.splice(3, 0, 'violin');
+        eq(testArray.length, 6);
+    },
+    'It should change the array content by replacing existing elemenets': function() {
+        var testArray = ['pizza', 'ice cream', 'burger', 'steak'];
+        testArray.splice(1, 1, 'chips');
+        eq(testArray[1], 'chips');
+    },
+    'It should start adding from array.length, if start is greater than array.length': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        testArray.splice(7, 0, 'violin');
+        eq(testArray.length, 6);
+        eq(testArray[5], 'violin');
+    },
+    'It should start adding from array.length - n, if start is negative': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        testArray.splice(-1, 0, 'violin');
+        eq(testArray.length, 6);
+        eq(testArray[4], 'violin');
+    },
+    'It should start count from 0, if deleteCount is used': function() {
+        var testArray = ['Fifa', 'Witcher', 'Crash', 'Mortal Kombat'];
+        var resultArray = testArray.splice(1, 1);
+        eq(resultArray.length, 1);
+        eq(resultArray[0], 'Witcher');
+    },
+    'It should delete all items in the array if, deleteCount value is equal or > array.length - start': function() {
+        var testArray = ['Fifa', 'Witcher', 'Crash', 'Rocket League'];
+        var result = testArray.splice(5, 4, 'Mortal Kombat');
+        eq(result.length, 0);
+    },
+    'It should not remove elements, if deleteCount is 0 or negative, but at least one new element should be specified': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        testArray.splice(1, -2, 'violin');
+        eq(testArray[1, 'violin']);
+        eq(testArray.length, 6)
+    },
+    'It should return an empty array if no elements are removed': function() {
+        var testArray = ['piano', 'guitar', 'drums', 'bass', 'sax'];
+        testArray.splice('violin');
+        eq(testArray.length, 0);
+    }
+});
+</script>
